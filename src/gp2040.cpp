@@ -4,6 +4,8 @@
 #include "gp2040.h"
 #ifdef GUITAR2040_BUILD
 #include "guitar2040/GuitarLeds.h"
+#include "guitar2040/Whammy.h"
+static guitar2040::Whammy whammy;
 static guitar2040::GuitarLeds fretLeds;
 #endif
 #include "helper.h"
@@ -103,6 +105,7 @@ void GP2040::setup() {
     this->initializeStandardGpio();
 #ifdef GUITAR2040_BUILD
     fretLeds.setup();
+    whammy.setup();
 #endif
 
 	// Initialize our ADC (various add-ons)
@@ -314,6 +317,10 @@ void GP2040::run() {
 		addons.PreprocessAddons();
 
 		gamepad->process(); // process through MPGS
+#if defined(GUITAR2040_BUILD) && GUITAR2040_WHAMMY_ENABLED
+        // Right stick X: only transmitted in USB modes that support analog axes.
+        gamepad->state.rx = whammy.read();
+#endif
 
 		// (Post) Process for add-ons
 		addons.ProcessAddons();
