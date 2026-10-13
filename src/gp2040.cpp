@@ -2,6 +2,10 @@
 
 // GP2040 includes
 #include "gp2040.h"
+#ifdef GUITAR2040_BUILD
+#include "guitar2040/GuitarLeds.h"
+static guitar2040::GuitarLeds fretLeds;
+#endif
 #include "helper.h"
 #include "system.h"
 #include "enums.pb.h"
@@ -97,6 +101,9 @@ void GP2040::setup() {
 	// now we can load the latest configured profile, which will map the
 	// new set of GPIOs to use...
     this->initializeStandardGpio();
+#ifdef GUITAR2040_BUILD
+    fretLeds.setup();
+#endif
 
 	// Initialize our ADC (various add-ons)
 	adc_init();
@@ -271,6 +278,24 @@ void GP2040::run() {
 		debounceGpioGetAll();
 		// Read Gamepad
 		gamepad->read();
+#ifdef GUITAR2040_BUILD
+        fretLeds.update(static_cast<uint64_t>(gamepad->debouncedGpio));
+        // Hold Select + Start for 1.5 seconds to toggle LED mode once.
+        // The button combination remains available to GP2040-CE.
+        static uint32_t comboSince = 0;
+        static bool comboHandled = false;
+        bool combo = ((gamepad->debouncedGpio & (uint64_t{1} << 9)) != 0) &&
+                     ((gamepad->debouncedGpio & (uint64_t{1} << 10)) != 0);
+        if (!combo) { comboSince = 0; comboHandled = false; }
+        else {
+            uint32_t nowMs = to_ms_since_boot(get_absolute_time());
+            if (comboSince == 0) comboSince = nowMs;
+            if (!comboHandled && (nowMs - comboSince >= 1500)) {
+                fretLeds.toggle();
+                comboHandled = true;
+            }
+        }
+#endif
 
 		checkRawState(prevState, gamepad->state);
 
