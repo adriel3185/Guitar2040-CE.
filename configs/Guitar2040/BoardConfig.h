@@ -47,5 +47,13 @@
 #define KEY_BUTTON_R3 HID_KEY_MINUS
 #define KEY_BUTTON_A1 HID_KEY_9
 #define KEY_BUTTON_A2 HID_KEY_F2
+// Optional future whammy: 10k potentiometer wiper on GP26 (ADC0).
+// Disabled by default; set to 1 only after wiring and switching to a gamepad mode.
+#define GUITAR2040_WHAMMY_ENABLED 0
+#define GUITAR2040_WHAMMY_PIN 26
+#define GUITAR2040_WHAMMY_ADC_MIN 0
+#define GUITAR2040_WHAMMY_ADC_MAX 4095
+#define GUITAR2040_WHAMMY_INVERT 0
+#define GPIO_PIN_26 GpioAction::ASSIGNED_TO_ADDON
 #define KEY_BUTTON_FN -1
 #endif
