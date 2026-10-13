@@ -37,3 +37,11 @@ cmake -S . -B build-guitar -G Ninja -DGP2040_BOARDCONFIG=Guitar2040
 ```
 
 For the existing Windows installation, CMake may also need an explicit Python 3.12 executable if its default selects Python 3.15. Do not flash until compilation succeeds; store a copy of the existing working UF2.
+
+## Optional whammy bar (future expansion)
+
+GP26/ADC0 is reserved for a three-terminal potentiometer. Wire one outer terminal to Pico **3V3(OUT)**, the other to **GND**, and the center wiper to **GP26**. Never apply 5 V to an ADC input. Do not connect the potentiometer until ready to test.
+
+The feature is **disabled by default**: `GUITAR2040_WHAMMY_ENABLED 0` in `BoardConfig.h`. When installed, set it to `1` and rebuild. The firmware samples GP26 and reports it on **right-stick X (RX)** in USB gamepad modes that support analog axes; it is **not** a native guitar-controller whammy report. Keyboard USB mode cannot send this analog axis. Configure the game to accept that axis, if supported. Calibration constants `GUITAR2040_WHAMMY_ADC_MIN`, `GUITAR2040_WHAMMY_ADC_MAX`, and `GUITAR2040_WHAMMY_INVERT` can be edited in `BoardConfig.h`. No in-game or web calibration interface has been implemented yet.
+
+The analog feature has not been compiled or tested on physical hardware.
