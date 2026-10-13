@@ -189,6 +189,10 @@ endif()
 # We want a larger stack of 4kb per core instead of the default 2kb
 add_compile_definitions(PICO_STACK_SIZE=0x1000)
 
+if(GP2040_BOARDCONFIG STREQUAL "Guitar2040")
+  add_compile_definitions(GUITAR2040_BUILD=1)
+endif()
+
 add_executable(${PROJECT_NAME}
 src/main.cpp
 src/gp2040.cpp
