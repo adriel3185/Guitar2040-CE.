@@ -1,3 +1,5 @@
+> **Guitar2040-CE custom guitar firmware (work in progress):** The dedicated nine-button Clone Hero keyboard profile, five discrete LEDs (always-on/reactive), and optional GP26 whammy are being developed on [`guitar2040-clonehero`](https://github.com/adriel3185/Guitar2040-CE./tree/guitar2040-clonehero). See the [wiring and build guide](configs/Guitar2040/README.md) in that branch. **No verified UF2 build or hardware test yet.** The default `main` branch still contains the GP2040-CE base.
+
 <p align="center">
   <a href="https://gp2040-ce.info">
     <img alt="GP2040-CE" src="https://raw.githubusercontent.com/OpenStickCommunity/Site/main/docs/assets/images/gp2040-ce-logo.png" />
